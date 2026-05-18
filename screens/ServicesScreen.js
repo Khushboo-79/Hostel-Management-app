@@ -12,12 +12,15 @@ import {
 import { BlurView } from '@react-native-community/blur';
 import LinearGradient from 'react-native-linear-gradient';
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
+import BottomNavbar from '../components/BottomNavbar';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withSpring,
   interpolate,
   Extrapolation,
+  runOnJS,
 } from 'react-native-reanimated';
 
 const { width, height } = Dimensions.get('window');
@@ -28,7 +31,7 @@ const CARD_HEIGHT = height * 0.55;
 
 // Sorted precisely from 1 to 9 so Room Cleaning is the absolute first
 const INITIAL_DATA = [
-  { id: '1', title: 'Room Cleaning', tagline: 'A clean room, a better you', image: require('../assets/images/roomCleaning.jpg') },
+  { id: '1', title: 'Room Cleaning', tagline: 'A clean room, a better you', image: require('../assets/images/roomCleaning.webp') },
   { id: '2', title: 'Laundry', tagline: 'Hassle free laundry service at your hostel', image: require('../assets/images/laundry.jpg') },
   { id: '3', title: 'Gym', tagline: 'Stay fit. stay focused', image: require('../assets/images/gym.jpeg') },
   { id: '4', title: 'Vehicle Rent', tagline: 'Rent bikes and scooties anytime, anywhere', image: require('../assets/images/vehicleRent.png') },
@@ -45,7 +48,8 @@ const SPRING_CONFIG = {
   mass: 0.7,
 };
 
-const Card = ({ item, index, totalCards, translateX, translateY, activeIndex }) => {
+const Card = ({ item, index, totalCards, translateX, translateY, activeIndex, navigation }) => {
+
   // Pure UI thread math: distance from the currently active front card
   const animatedStyle = useAnimatedStyle(() => {
     let dist = (index - activeIndex.value) % totalCards;
@@ -143,36 +147,47 @@ const Card = ({ item, index, totalCards, translateX, translateY, activeIndex }) 
     return { opacity: dist > 3 ? 1 : 0 };
   });
 
+  // Navigate to the correct screen based on the card tapped
+  const handleNavigation = () => {
+    if (item.id === '1') navigation.navigate('RoomCleaning');
+    if (item.id === '2') navigation.navigate('Laundry');
+  };
+
+  const tapGesture = Gesture.Tap().onEnd(() => {
+    if (activeIndex.value === index && (item.id === '1' || item.id === '2')) {
+      runOnJS(handleNavigation)();
+    }
+  });
+
   return (
-    <Animated.View style={[styles.cardBase, animatedStyle]}>
-      {/* Absolute Fill ensures Image covers the ENTIRE card perfectly with no empty edges */}
-      <Image source={item.image} style={styles.cardImage} resizeMode="cover" />
+    <GestureDetector gesture={tapGesture}>
+      <Animated.View style={[styles.cardBase, animatedStyle]}>
+        <Image source={item.image} style={styles.cardImage} resizeMode="cover" />
 
-      {/* Linear Gradient Fade ensures the text is protected but smoothly blends out */}
-      <LinearGradient 
-        colors={['rgba(0,0,0,0.8)', 'rgba(0,0,0,0)']} 
-        style={styles.frontCardContent}
-      >
-        <Text style={styles.cardTitle}>{item.title}</Text>
-        <Text style={styles.cardTagline}>{item.tagline}</Text>
-      </LinearGradient>
+        <LinearGradient
+          colors={['rgba(0,0,0,0.8)', 'rgba(0,0,0,0)']}
+          style={styles.frontCardContent}
+        >
+          <Text style={styles.cardTitle}>{item.title}</Text>
+          <Text style={styles.cardTagline}>{item.tagline}</Text>
+        </LinearGradient>
 
-      <Animated.View style={[StyleSheet.absoluteFill, blur8Style]} pointerEvents="none">
-        <View style={styles.depthOverlay} />
+        <Animated.View style={[StyleSheet.absoluteFill, blur8Style]} pointerEvents="none">
+          <View style={styles.depthOverlay} />
+        </Animated.View>
+
+        <Animated.View style={[StyleSheet.absoluteFill, blur12Style]} pointerEvents="none">
+          <View style={styles.depthOverlayDarker} />
+        </Animated.View>
       </Animated.View>
-
-      <Animated.View style={[StyleSheet.absoluteFill, blur12Style]} pointerEvents="none">
-        <View style={styles.depthOverlayDarker} />
-      </Animated.View>
-    </Animated.View>
+    </GestureDetector>
   );
 };
 
 export default function ServicesScreen() {
+  const navigation = useNavigation();
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
-
-  // Start with index 0 (Room Cleaning)
   const activeIndex = useSharedValue(0);
 
   const panGesture = Gesture.Pan()
@@ -181,19 +196,16 @@ export default function ServicesScreen() {
       translateY.value = event.translationY * 0.15;
     })
     .onEnd((event) => {
-      // Significantly lowered threshold so even a light swipe successfully triggers the next card
       if (Math.abs(event.translationX) > 50 || Math.abs(event.velocityX) > 300) {
         const direction = Math.sign(event.translationX);
         const targetX = direction * width * 1.5;
 
-        // Fly away and unconditionally loop
         translateX.value = withSpring(targetX, { ...SPRING_CONFIG, velocity: event.velocityX }, () => {
           activeIndex.value = (activeIndex.value + 1) % INITIAL_DATA.length;
           translateX.value = 0;
           translateY.value = 0;
         });
       } else {
-        // Snap back if barely moved
         translateX.value = withSpring(0, SPRING_CONFIG);
         translateY.value = withSpring(0, SPRING_CONFIG);
       }
@@ -212,10 +224,19 @@ export default function ServicesScreen() {
 
       {/* HEADER */}
       <View style={styles.header}>
+        <TouchableOpacity
+          style={styles.menuIconBtn}
+          onPress={() => navigation.navigate('Sidebar')}
+        >
+          <Image
+            source={require('../assets/images/direction.png')}
+            style={styles.menuIcon}
+          />
+        </TouchableOpacity>
         <Text style={styles.headerTitle}>Services</Text>
       </View>
 
-      {/* CARDS CONTAINER - Single gesture detector wraps the entire stack area */}
+      {/* CARDS CONTAINER */}
       <GestureDetector gesture={panGesture}>
         <View style={styles.cardsContainer} pointerEvents="box-none">
           {INITIAL_DATA.map((item, index) => (
@@ -227,41 +248,14 @@ export default function ServicesScreen() {
               translateX={translateX}
               translateY={translateY}
               activeIndex={activeIndex}
+              navigation={navigation}
             />
           ))}
         </View>
       </GestureDetector>
 
       {/* BOTTOM NAVBAR */}
-      <View style={styles.bottomNavContainer}>
-        <BlurView
-          style={StyleSheet.absoluteFill}
-          blurType="dark"
-          blurAmount={20}
-          reducedTransparencyFallbackColor="rgba(0,0,0,0.6)"
-        />
-        <View style={styles.navGlassBg} />
-
-        <View style={styles.navContent}>
-          <TouchableOpacity style={styles.navItem}>
-            <Image source={require('../assets/images/home.png')} style={styles.navIcon} />
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.navItemActive}>
-            <View style={styles.activeIconCircle}>
-              <Image source={require('../assets/images/chatbot.png')} style={styles.navIconActive} />
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.navItem}>
-            <Image source={require('../assets/images/badge.png')} style={styles.navIcon} />
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.navItem}>
-            <Image source={require('../assets/images/wallet.png')} style={styles.navIcon} />
-          </TouchableOpacity>
-        </View>
-      </View>
+      <BottomNavbar activeTab="chatbot" />
     </GestureHandlerRootView>
   );
 }
@@ -280,25 +274,51 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(235, 229, 223, 0.4)',
   },
   header: {
-    paddingTop: Platform.OS === 'ios' ? 60 : (StatusBar.currentHeight || 24) + 20,
+    paddingTop:
+      Platform.OS === 'ios'
+        ? 60
+        : (StatusBar.currentHeight || 24) + 20,
+
+    height:
+      Platform.OS === 'ios'
+        ? 110
+        : (StatusBar.currentHeight || 24) + 70,
+
+    justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 10,
+
     zIndex: 10,
+  },
+  menuIconBtn: {
+    position: 'absolute',
+    left: 20,
+    top:
+      Platform.OS === 'ios'
+        ? 60
+        : (StatusBar.currentHeight || 24) + 20,
+
+    padding: 8,
+    zIndex: 11,
+  },
+  menuIcon: {
+    width: 28,
+    height: 28,
+    tintColor: '#1A1A1A',
+    resizeMode: 'contain',
   },
   headerTitle: {
     fontSize: 22,
-    fontWeight: '500',
-    color: '#1A1A1A',
+    fontWeight: '600',
+    color: '#000',
     letterSpacing: 0.5,
+    textAlign: 'center',
   },
-
   cardsContainer: {
     ...StyleSheet.absoluteFillObject,
     zIndex: 5,
-    marginTop: '80%', // Keep user's exact vertical offset preference
+    marginTop: '80%',
     elevation: 5,
   },
-
   cardBase: {
     position: 'absolute',
     alignSelf: 'center',
@@ -306,7 +326,7 @@ const styles = StyleSheet.create({
     marginTop: -CARD_HEIGHT / 2,
     width: CARD_WIDTH,
     height: CARD_HEIGHT,
-    backgroundColor: '#1A1A1A', // Dark background hides PNG transparency
+    backgroundColor: '#1A1A1A',
     borderRadius: 36,
     overflow: 'hidden',
     shadowColor: '#000',
@@ -316,27 +336,25 @@ const styles = StyleSheet.create({
   },
   cardImage: {
     ...StyleSheet.absoluteFillObject,
-    width: CARD_WIDTH, // Force exact mathematical dimensions
-    height: CARD_HEIGHT, // Force exact mathematical dimensions
+    width: CARD_WIDTH,
+    height: CARD_HEIGHT,
     resizeMode: 'cover',
   },
-
   depthOverlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0,0,0,0.35)', // Adjusted to replace the missing blur effect natively
+    backgroundColor: 'rgba(0,0,0,0.35)',
   },
   depthOverlayDarker: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0,0,0,0.65)', // Adjusted to replace the deeper missing blur
+    backgroundColor: 'rgba(0,0,0,0.65)',
   },
-
   frontCardContent: {
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     paddingTop: 30,
-    paddingBottom: 50, // Extra padding to make the gradient fade incredibly smooth
+    paddingBottom: 50,
     paddingHorizontal: 20,
   },
   cardTitle: {
@@ -356,62 +374,5 @@ const styles = StyleSheet.create({
     textShadowColor: 'rgba(0,0,0,0.4)',
     textShadowOffset: { width: 0, height: 1 },
     textShadowRadius: 4,
-  },
-
-  bottomNavContainer: {
-    position: 'absolute',
-    bottom: 35,
-    alignSelf: 'center',
-    width: width * 0.85,
-    height: 75,
-    borderRadius: 38,
-    overflow: 'hidden',
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.2)',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.2,
-    shadowRadius: 20,
-    elevation: 15,
-    zIndex: 20,
-  },
-  navGlassBg: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(40, 40, 40, 0.4)',
-  },
-  navContent: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    paddingHorizontal: 10,
-  },
-  navItem: {
-    padding: 10,
-  },
-  navItemActive: {
-    padding: 2,
-  },
-  navIcon: {
-    width: 26,
-    height: 26,
-    tintColor: '#FFF',
-    resizeMode: 'contain',
-  },
-  navIconActive: {
-    width: 24,
-    height: 24,
-    tintColor: '#FFF',
-    resizeMode: 'contain',
-  },
-  activeIconCircle: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    borderWidth: 1.5,
-    borderColor: '#fff',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(255,255,255,0.15)',
   },
 });
