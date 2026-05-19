@@ -142,8 +142,11 @@ export default function RoomDetailsScreen({ route, navigation }) {
             <TouchableOpacity 
               activeOpacity={0.8} 
               style={styles.bookBtnWrapper}
-              onPress={() => navigation.navigate('BookingConfirmation', { room })}
-            >
+
+              // onPress={() => navigation.navigate('BookingConfir/mation', { room })}
+              onPress={() => navigation.navigate('BookingSlots', { room })}
+
+           >
               <GlassContainer style={styles.bookBtn} dark={true}>
                 <View style={styles.bookBtnInner}>
                   <Text style={styles.bookBtnText}>Book This Slot</Text>

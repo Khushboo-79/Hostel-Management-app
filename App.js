@@ -14,6 +14,9 @@ import BookingConfirmationScreen from './screens/BookingConfirmationScreen';
 import DashboardScreen from './screens/DashboardScreen';
 import RoomsScreen from './screens/RoomsScreen';
 import RoomSelectionScreen from './screens/RoomSelectionScreen';
+import BookingSlots from './screens/BookingSlots';
+import Thingsinfo from './screens/Thingsinfo';
+import OrderDetails from './screens/OrderDetails';
 
 const Stack = createNativeStackNavigator();
 
@@ -37,6 +40,9 @@ export default function App() {
         <Stack.Screen name="Sidebar" component={SidebarScreen} />
         <Stack.Screen name="Rooms" component={RoomsScreen} />
         <Stack.Screen name="RoomSelection" component={RoomSelectionScreen} />
+        <Stack.Screen name="BookingSlots" component={BookingSlots} />
+        <Stack.Screen name="Thingsinfo" component={Thingsinfo} />
+        <Stack.Screen name="OrderDetails" component={OrderDetails} />
       </Stack.Navigator>
     </NavigationContainer>
   );
