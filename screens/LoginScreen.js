@@ -124,7 +124,7 @@ export default function LoginScreen({ navigation }) {
             <TouchableOpacity
               style={styles.loginBtn}
               activeOpacity={0.85}
-              onPress={() => navigation.navigate('Services')}
+              onPress={() => navigation.navigate('Dashboard')}
             >
               <Text style={styles.loginBtnText}>Log in</Text>
             </TouchableOpacity>

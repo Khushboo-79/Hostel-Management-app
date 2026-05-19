@@ -11,6 +11,9 @@ import LaundryScreen from './screens/LaundryScreen';
 import StudyRoomScreen from './screens/StudyRoomScreen';
 import RoomDetailsScreen from './screens/RoomDetailsScreen';
 import BookingConfirmationScreen from './screens/BookingConfirmationScreen';
+import DashboardScreen from './screens/DashboardScreen';
+import RoomsScreen from './screens/RoomsScreen';
+import RoomSelectionScreen from './screens/RoomSelectionScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -30,7 +33,10 @@ export default function App() {
         <Stack.Screen name="StudyRoom" component={StudyRoomScreen} />
         <Stack.Screen name="RoomDetails" component={RoomDetailsScreen} />
         <Stack.Screen name="BookingConfirmation" component={BookingConfirmationScreen} />
+        <Stack.Screen name="Dashboard" component={DashboardScreen} />
         <Stack.Screen name="Sidebar" component={SidebarScreen} />
+        <Stack.Screen name="Rooms" component={RoomsScreen} />
+        <Stack.Screen name="RoomSelection" component={RoomSelectionScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

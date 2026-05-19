@@ -1,10 +1,12 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity, Image, Dimensions } from 'react-native';
 import { BlurView } from '@react-native-community/blur';
+import { useNavigation } from '@react-navigation/native';
 
 const { width } = Dimensions.get('window');
 
 const BottomNavbar = ({ activeTab }) => {
+  const navigation = useNavigation();
   return (
     <View style={styles.bottomNavContainer}>
       <BlurView
@@ -16,7 +18,10 @@ const BottomNavbar = ({ activeTab }) => {
       <View style={styles.navGlassBg} />
 
       <View style={styles.navContent}>
-        <TouchableOpacity style={activeTab === 'home' ? styles.navItemActive : styles.navItem}>
+        <TouchableOpacity
+          style={activeTab === 'home' ? styles.navItemActive : styles.navItem}
+          onPress={() => navigation.navigate('Dashboard')}
+        >
           {activeTab === 'home' ? (
             <View style={styles.activeIconCircle}>
               <Image source={require('../assets/images/home.png')} style={styles.navIconActive} />
@@ -26,13 +31,16 @@ const BottomNavbar = ({ activeTab }) => {
           )}
         </TouchableOpacity>
 
-        <TouchableOpacity style={activeTab === 'chatbot' ? styles.navItemActive : styles.navItem}>
-          {activeTab === 'chatbot' ? (
+        <TouchableOpacity
+          style={activeTab === 'services' ? styles.navItemActive : styles.navItem}
+          onPress={() => navigation.navigate('Services')}
+        >
+          {activeTab === 'services' ? (
             <View style={styles.activeIconCircle}>
-              <Image source={require('../assets/images/chatbot.png')} style={styles.navIconActive} />
+              <Image source={require('../assets/images/service.png')} style={styles.navIconActive} />
             </View>
           ) : (
-            <Image source={require('../assets/images/chatbot.png')} style={styles.navIcon} />
+            <Image source={require('../assets/images/service.png')} style={styles.navIcon} />
           )}
         </TouchableOpacity>
 
