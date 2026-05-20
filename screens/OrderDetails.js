@@ -87,10 +87,6 @@ const trackingSteps = [
   },
 ];
 
-/* ─────────────────────────────────────────────
-   SCREEN
-───────────────────────────────────────────── */
-
 export default function OrderDetails({ navigation }) {
   return (
     <View style={styles.container}>
@@ -311,7 +307,6 @@ const styles = StyleSheet.create({
     paddingBottom: verticalScale(60),
   },
 
-  
   mainWrapper: {
     borderRadius: scale(38),
     padding: scale(10),

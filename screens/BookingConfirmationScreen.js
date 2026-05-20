@@ -7,7 +7,7 @@ import {
   StatusBar,
   Dimensions,
   Image,
-  ScrollView
+  ScrollView,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { BlurView } from '@react-native-community/blur';
@@ -31,15 +31,14 @@ const GlassContainer = ({ children, style, borderRadius = 20 }) => (
       end={{ x: 1, y: 0 }}
       style={[styles.topEdgeLine, { borderRadius }]}
     />
+
     <LinearGradient
       colors={['rgba(255,255,255,0.8)', 'transparent', 'rgba(255,255,255,0.3)']}
       start={{ x: 0, y: 0 }}
       end={{ x: 0, y: 1 }}
       style={[styles.leftEdgeLine, { borderRadius }]}
     />
-    <View style={[styles.contentWrapper, { borderRadius }]}>
-      {children}
-    </View>
+    <View style={[styles.contentWrapper, { borderRadius }]}>{children}</View>
   </View>
 );
 
@@ -48,7 +47,11 @@ export default function BookingConfirmationScreen({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
+      <StatusBar
+        translucent
+        backgroundColor="transparent"
+        barStyle="dark-content"
+      />
 
       {/* FULLSCREEN BACKGROUND */}
       <View style={StyleSheet.absoluteFill}>
@@ -57,7 +60,7 @@ export default function BookingConfirmationScreen({ route, navigation }) {
           style={styles.backgroundImage}
           resizeMode="cover"
         />
-        {/* Subtle dark overlay with blur matching the screenshot's soft background */}
+
         <BlurView
           style={StyleSheet.absoluteFill}
           blurType="light"
@@ -67,13 +70,17 @@ export default function BookingConfirmationScreen({ route, navigation }) {
         <View style={styles.backgroundOverlay} />
       </View>
 
-      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-
-        {/* SUCCESS ICON */}
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
         <View style={styles.iconWrapper}>
           <GlassContainer style={styles.successIconCard} borderRadius={32}>
             <View style={styles.successIconInner}>
-              <Image source={require('../assets/images/check.png')} style={styles.checkIcon} />
+              <Image
+                source={require('../assets/images/check.png')}
+                style={styles.checkIcon}
+              />
             </View>
           </GlassContainer>
         </View>
@@ -87,21 +94,30 @@ export default function BookingConfirmationScreen({ route, navigation }) {
         {/* BOOKING DETAILS CARD */}
         <GlassContainer style={styles.detailsCard} borderRadius={24}>
           <View style={styles.detailsInner}>
-            <Text style={styles.roomTitle}>{room?.title || 'Focus Room 2'}</Text>
-            <Text style={styles.roomLoc}>{room?.loc || '2nd Floor, Central Library'}</Text>
+            <Text style={styles.roomTitle}>
+              {room?.title || 'Focus Room 2'}
+            </Text>
+            <Text style={styles.roomLoc}>
+              {room?.loc || '2nd Floor, Central Library'}
+            </Text>
 
             <View style={styles.slotRow}>
-              <Image source={require('../assets/images/calender.png')} style={styles.slotIcon} />
+              <Image
+                source={require('../assets/images/calender.png')}
+                style={styles.slotIcon}
+              />
               <Text style={styles.slotText}>16 May 2026, Saturday</Text>
             </View>
             <View style={styles.slotRow}>
-              <Image source={require('../assets/images/time.png')} style={styles.slotIcon} />
+              <Image
+                source={require('../assets/images/time.png')}
+                style={styles.slotIcon}
+              />
               <Text style={styles.slotText}>4:00 PM - 6:00 PM</Text>
             </View>
           </View>
         </GlassContainer>
 
-        {/* ACTION BUTTONS */}
         <TouchableOpacity activeOpacity={0.7} style={styles.btnWrap}>
           <GlassContainer style={styles.actionBtn} borderRadius={18}>
             <View style={styles.actionBtnInner}>
@@ -126,7 +142,6 @@ export default function BookingConfirmationScreen({ route, navigation }) {
         >
           <Text style={styles.homeBtnText}>Go to Home</Text>
         </TouchableOpacity>
-
       </ScrollView>
     </View>
   );
@@ -257,7 +272,7 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(255,255,255,0.3)',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.10,
+    shadowOpacity: 0.1,
     shadowRadius: 32,
     elevation: 8,
   },
@@ -266,18 +281,38 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255,0.46)',
   },
   topInsetHighlight: {
-    position: 'absolute', top: 0, left: 0, right: 0, height: 1,
-    backgroundColor: 'rgba(255,255,255,0.5)', zIndex: 1,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 1,
+    backgroundColor: 'rgba(255,255,255,0.5)',
+    zIndex: 1,
   },
   bottomInsetHighlight: {
-    position: 'absolute', bottom: 0, left: 0, right: 0, height: 1,
-    backgroundColor: 'rgba(255,255,255,0.1)', zIndex: 1,
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 1,
+    backgroundColor: 'rgba(255,255,255,0.1)',
+    zIndex: 1,
   },
   topEdgeLine: {
-    position: 'absolute', top: 0, left: 0, right: 0, height: 1, zIndex: 2,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 1,
+    zIndex: 2,
   },
   leftEdgeLine: {
-    position: 'absolute', top: 0, left: 0, width: 1, height: '100%', zIndex: 2,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: 1,
+    height: '100%',
+    zIndex: 2,
   },
   contentWrapper: {
     // let children dictate size

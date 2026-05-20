@@ -38,6 +38,7 @@ export default function App() {
         <Stack.Screen name="BookingSlots" component={BookingSlots} />
         <Stack.Screen name="Thingsinfo" component={Thingsinfo} />
         <Stack.Screen name="OrderDetails" component={OrderDetails} />
+        
       </Stack.Navigator>
     </NavigationContainer>
   );
