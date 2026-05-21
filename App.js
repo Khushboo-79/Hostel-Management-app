@@ -17,6 +17,13 @@ import RoomSelectionScreen from './screens/RoomSelectionScreen';
 import BookingSlots from './screens/BookingSlots';
 import Thingsinfo from './screens/Thingsinfo';
 import OrderDetails from './screens/OrderDetails';
+import AiAssistantScreen from './screens/AiAssistantScreen';
+import MealScreen from './screens/MealScreen';
+import WeeklyMealMenuScreen from './screens/WeeklyMealMenuScreen';
+import PaymentBillingScreen from './screens/PaymentBillingScreen';
+import MyInvoicesScreen from './screens/MyInvoicesScreen';
+import InvoiceDetailScreen from './screens/InvoiceDetailScreen';
+import BillingSummaryScreen from './screens/BillingSummaryScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -43,6 +50,13 @@ export default function App() {
         <Stack.Screen name="BookingSlots" component={BookingSlots} />
         <Stack.Screen name="Thingsinfo" component={Thingsinfo} />
         <Stack.Screen name="OrderDetails" component={OrderDetails} />
+        <Stack.Screen name="AiAssistant" component={AiAssistantScreen} />
+        <Stack.Screen name="Meal" component={MealScreen} />
+        <Stack.Screen name="WeeklyMealMenu" component={WeeklyMealMenuScreen} />
+        <Stack.Screen name="PaymentBilling" component={PaymentBillingScreen} />
+        <Stack.Screen name="MyInvoices" component={MyInvoicesScreen} />
+        <Stack.Screen name="InvoiceDetail" component={InvoiceDetailScreen} />
+        <Stack.Screen name="BillingSummary" component={BillingSummaryScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

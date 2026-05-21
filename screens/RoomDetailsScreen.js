@@ -20,8 +20,9 @@ import Animated, {
   withSpring,
   useAnimatedScrollHandler,
   Easing,
+  interpolate,
 } from 'react-native-reanimated';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { GestureHandlerRootView, GestureDetector, Gesture } from 'react-native-gesture-handler';
 
 const { width, height } = Dimensions.get('window');
 
@@ -65,7 +66,7 @@ const GlassPanelBg = memo(() => (
       style={StyleSheet.absoluteFill}
       blurType="dark"
       blurAmount={15}
-      androidBg="rgba(25, 25, 25, 0.90)"
+      androidBg="rgba(58, 55, 55, 0.9)"
     />
     <View style={styles.sheetGlassBg} />
     <View style={styles.topInsetHighlight} />
@@ -131,6 +132,34 @@ export default function RoomDetailsScreen({ route, navigation }) {
     panelY.value = withSpring(COLLAPSED_Y, { damping: 22, stiffness: 120 });
   }, [panelY, COLLAPSED_Y]);
 
+  // ── Pan Gesture for smooth, finger-following drag ────────────────────────
+  const contextY = useSharedValue(0);
+
+  const panGesture = Gesture.Pan()
+    .onStart(() => {
+      'worklet';
+      contextY.value = panelY.value;
+    })
+    .onUpdate((event) => {
+      'worklet';
+      const newY = contextY.value + event.translationY;
+      panelY.value = Math.max(height * 0.08, Math.min(newY, COLLAPSED_Y));
+    })
+    .onEnd((event) => {
+      'worklet';
+      const thresh = (height * 0.08 + COLLAPSED_Y) / 2;
+      const velocity = event.velocityY;
+      if (velocity < -400) {
+        panelY.value = withSpring(height * 0.08, { damping: 20, stiffness: 100 });
+      } else if (velocity > 400) {
+        panelY.value = withSpring(COLLAPSED_Y, { damping: 20, stiffness: 100 });
+      } else if (panelY.value < thresh) {
+        panelY.value = withSpring(height * 0.08, { damping: 20, stiffness: 100 });
+      } else {
+        panelY.value = withSpring(COLLAPSED_Y, { damping: 20, stiffness: 100 });
+      }
+    });
+
   // Scroll → expand panel on first scroll down, collapse when back at top
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: (event) => {
@@ -153,6 +182,29 @@ export default function RoomDetailsScreen({ route, navigation }) {
   const panelStyle = useAnimatedStyle(() => ({
     transform: [{ translateY: panelY.value }],
   }));
+
+  // Fade out and scale down arrows as panel moves up
+  const arrowStyle = useAnimatedStyle(() => {
+    const opacity = interpolate(
+      panelY.value,
+      [COLLAPSED_Y - 80, COLLAPSED_Y],
+      [0, 1],
+      'clamp'
+    );
+    return {
+      opacity,
+      transform: [
+        {
+          scale: interpolate(
+            panelY.value,
+            [COLLAPSED_Y - 80, COLLAPSED_Y],
+            [0.85, 1],
+            'clamp'
+          ),
+        },
+      ],
+    };
+  });
 
   return (
     <GestureHandlerRootView style={styles.flex1}>
@@ -211,7 +263,7 @@ export default function RoomDetailsScreen({ route, navigation }) {
         {/* ════════════════════════════════════════════════════════════════
             CAROUSEL PREV / NEXT CONTROLS
         ════════════════════════════════════════════════════════════════ */}
-        <View style={styles.carouselControls}>
+        <Animated.View style={[styles.carouselControls, arrowStyle]}>
           <TouchableOpacity onPress={handlePrev} activeOpacity={0.7} style={styles.arrowBtn}>
             <MaybeBlur
               style={StyleSheet.absoluteFill}
@@ -233,17 +285,24 @@ export default function RoomDetailsScreen({ route, navigation }) {
             <View style={styles.buttonGlassBg} />
             <Icon name="chevron-right" size={32} color="#000" />
           </TouchableOpacity>
-        </View>
+        </Animated.View>
 
         {/* ════════════════════════════════════════════════════════════════
             GLASS BOTTOM PANEL
             - position: absolute top:0, height: height (full screen)
-            - animated via translateY only → native thread → no jank
+            - animated via translateY only → native driver → no jank
             - panel extends below screen; only portion above screen visible
         ════════════════════════════════════════════════════════════════ */}
         <Animated.View style={[styles.bottomPanel, panelStyle]}>
           {/* Static glass backdrop — memoized, renders exactly once */}
           <GlassPanelBg />
+
+          {/* Dedicated Drag Zone (Top of the panel) */}
+          <GestureDetector gesture={panGesture}>
+            <View style={styles.dragZone}>
+              <View style={styles.dragHandleIndicator} />
+            </View>
+          </GestureDetector>
 
           {/* Scrollable content */}
           <Animated.ScrollView
@@ -587,7 +646,22 @@ const styles = StyleSheet.create({
   // ── Scroll content ─────────────────────────────────────────────────────────
   panelScroll: {
     paddingHorizontal: 24,
-    paddingTop: 32,
+    paddingTop: 12, // adjusted for the new drag handle zone
+  },
+  dragZone: {
+    width: '100%',
+    height: 38,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
+    zIndex: 10,
+  },
+  dragHandleIndicator: {
+    width: 44,
+    height: 5,
+    borderRadius: 2.5,
+    backgroundColor: 'rgba(255, 255, 255, 0.35)',
+    marginTop: 8,
   },
   section: {
     marginBottom: 28,
