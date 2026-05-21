@@ -13,7 +13,7 @@ const BottomNavbar = ({ activeTab }) => {
         style={StyleSheet.absoluteFill}
         blurType="dark"
         blurAmount={20}
-        reducedTransparencyFallbackColor="rgba(0,0,0,0.6)"
+        reducedTransparencyFallbackColor="rgba(58, 55, 55, 0.9)"
       />
       <View style={styles.navGlassBg} />
 

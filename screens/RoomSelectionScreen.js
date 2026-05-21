@@ -127,7 +127,12 @@ export default function RoomSelectionScreen({ navigation }) {
           showsVerticalScrollIndicator={false}
         >
           {ROOMS_DATA.map((room) => (
-            <TouchableOpacity key={room.id} activeOpacity={0.9} style={styles.cardContainer}>
+            <TouchableOpacity 
+              key={room.id} 
+              activeOpacity={0.9} 
+              style={styles.cardContainer}
+              onPress={() => navigation.navigate('RoomDetails', { room })}
+            >
               <View style={styles.roomCard}>
                 <Image source={room.image} style={styles.roomImage} />
                 
