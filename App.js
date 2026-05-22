@@ -24,6 +24,8 @@ import PaymentBillingScreen from './screens/PaymentBillingScreen';
 import MyInvoicesScreen from './screens/MyInvoicesScreen';
 import InvoiceDetailScreen from './screens/InvoiceDetailScreen';
 import BillingSummaryScreen from './screens/BillingSummaryScreen';
+import PayScreen from './screens/PayScreen';
+import PaymentFailedScreen from './screens/PaymentFailedScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -57,6 +59,8 @@ export default function App() {
         <Stack.Screen name="MyInvoices" component={MyInvoicesScreen} />
         <Stack.Screen name="InvoiceDetail" component={InvoiceDetailScreen} />
         <Stack.Screen name="BillingSummary" component={BillingSummaryScreen} />
+        <Stack.Screen name="PayScreen" component={PayScreen} />
+        <Stack.Screen name="PaymentFailed" component={PaymentFailedScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
