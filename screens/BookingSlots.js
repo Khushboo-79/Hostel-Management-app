@@ -10,13 +10,11 @@ import {
   ScrollView,
   Platform,
 } from 'react-native';
-
 import LinearGradient from 'react-native-linear-gradient';
 import { BlurView } from '@react-native-community/blur';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const { width } = Dimensions.get('window');
-
 const slots = [
   '4:00 PM - 6:00 PM',
   '10:00 PM - 12:00 AM',

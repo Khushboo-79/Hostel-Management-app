@@ -9,11 +9,15 @@ import {
   Platform,
   Image,
   ScrollView,
-  ImageBackground
+  ImageBackground,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { BlurView } from '@react-native-community/blur';
-import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
+import {
+  Gesture,
+  GestureDetector,
+  GestureHandlerRootView,
+} from 'react-native-gesture-handler';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -45,9 +49,7 @@ const GlassContainer = ({ children, style, borderRadius = 20 }) => (
       end={{ x: 0, y: 1 }}
       style={[styles.leftEdgeLine, { borderRadius }]}
     />
-    <View style={[styles.contentWrapper, { borderRadius }]}>
-      {children}
-    </View>
+    <View style={[styles.contentWrapper, { borderRadius }]}>{children}</View>
   </View>
 );
 
@@ -66,7 +68,7 @@ export default function DashboardScreen({ navigation }) {
       contextX.value = translateX.value;
       contextY.value = translateY.value;
     })
-    .onUpdate((event) => {
+    .onUpdate(event => {
       translateX.value = event.translationX + contextX.value;
       translateY.value = event.translationY + contextY.value;
     });
@@ -82,7 +84,11 @@ export default function DashboardScreen({ navigation }) {
 
   return (
     <GestureHandlerRootView style={styles.container}>
-      <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
+      <StatusBar
+        translucent
+        backgroundColor="transparent"
+        barStyle="dark-content"
+      />
 
       {/* FULLSCREEN BACKGROUND */}
       <ImageBackground
@@ -93,29 +99,44 @@ export default function DashboardScreen({ navigation }) {
         <BlurView
           style={StyleSheet.absoluteFill}
           blurType="light"
-          blurAmount={8}
+          blurAmount={1}
           reducedTransparencyFallbackColor="#EBE5DF"
         />
         <View style={styles.backgroundOverlay} />
 
-        <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+        <ScrollView
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+        >
           {/* HEADER */}
           <View style={styles.header}>
-            <TouchableOpacity onPress={() => navigation.navigate('Sidebar')} activeOpacity={0.7}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Sidebar')}
+              activeOpacity={0.7}
+            >
               <GlassContainer style={styles.circleBtn} borderRadius={24}>
-                <Image source={require('../assets/images/direction.png')} style={styles.iconBlack} />
+                <Image
+                  source={require('../assets/images/direction.png')}
+                  style={styles.iconBlack}
+                />
               </GlassContainer>
             </TouchableOpacity>
 
             <View style={styles.headerRight}>
               <TouchableOpacity activeOpacity={0.7} style={{ marginRight: 12 }}>
                 <GlassContainer style={styles.circleBtn} borderRadius={24}>
-                  <Image source={require('../assets/images/bell.png')} style={styles.iconBlack} />
+                  <Image
+                    source={require('../assets/images/bell.png')}
+                    style={styles.iconBlack}
+                  />
                 </GlassContainer>
               </TouchableOpacity>
               <TouchableOpacity activeOpacity={0.7}>
                 <GlassContainer style={styles.circleBtn} borderRadius={24}>
-                  <Image source={require('../assets/images/woman.png')} style={styles.avatarIcon} />
+                  <Image
+                    source={require('../assets/images/woman.png')}
+                    style={styles.avatarIcon}
+                  />
                 </GlassContainer>
               </TouchableOpacity>
             </View>
@@ -129,7 +150,10 @@ export default function DashboardScreen({ navigation }) {
             </View>
             <TouchableOpacity activeOpacity={0.7}>
               <GlassContainer style={styles.circleBtnSearch} borderRadius={28}>
-                <Image source={require('../assets/images/search.png')} style={styles.iconSearch} />
+                <Image
+                  source={require('../assets/images/search.png')}
+                  style={styles.iconSearch}
+                />
               </GlassContainer>
             </TouchableOpacity>
           </View>
@@ -142,7 +166,7 @@ export default function DashboardScreen({ navigation }) {
               showsHorizontalScrollIndicator={false}
               snapToInterval={width - 32}
               decelerationRate="fast"
-              onScroll={(e) => {
+              onScroll={e => {
                 const offset = e.nativeEvent.contentOffset.x;
                 const index = Math.round(offset / (width - 32));
                 setActiveBanner(index);
@@ -150,7 +174,7 @@ export default function DashboardScreen({ navigation }) {
               scrollEventThrottle={16}
               contentContainerStyle={{ paddingHorizontal: 16 }}
             >
-              {[0, 1, 2, 3].map((item) => (
+              {[0, 1, 2, 3].map(item => (
                 <View key={item} style={styles.bannerWrapper}>
                   <GlassContainer style={styles.bannerCard} borderRadius={24} />
                 </View>
@@ -159,8 +183,14 @@ export default function DashboardScreen({ navigation }) {
 
             {/* Pagination Dots */}
             <View style={styles.pagination}>
-              {[0, 1, 2, 3].map((item) => (
-                <View key={item} style={[styles.dot, activeBanner === item ? styles.activeDot : {}]} />
+              {[0, 1, 2, 3].map(item => (
+                <View
+                  key={item}
+                  style={[
+                    styles.dot,
+                    activeBanner === item ? styles.activeDot : {},
+                  ]}
+                />
               ))}
             </View>
           </View>
@@ -169,43 +199,40 @@ export default function DashboardScreen({ navigation }) {
           <View style={styles.gridContainer}>
             {/* Left Column */}
             <View style={styles.gridColumn}>
-              <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.navigate('Rooms')}>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() => navigation.navigate('Rooms')}
+              >
                 <GlassContainer style={styles.gridCardRooms} borderRadius={28}>
                   <Text style={styles.cardTitle}>Rooms</Text>
-                  <Image source={require('../assets/images/roomsBooking.png')} style={styles.cardImageRooms} />
+                  <Image
+                    source={require('../assets/images/roomsBooking.png')}
+                    style={styles.cardImageRooms}
+                  />
                 </GlassContainer>
               </TouchableOpacity>
 
-              <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.navigate('Meal')}>
-                <GlassContainer style={styles.gridCardMeal} borderRadius={28}>
-                  <Text style={styles.cardTitle}>Meal Menu</Text>
-                  <Image source={require('../assets/images/meal.png')} style={styles.cardImageMeal} />
-                </GlassContainer>
-              </TouchableOpacity>
+              <GlassContainer style={styles.gridCardMeal} borderRadius={28}>
+                <Text style={styles.cardTitle}>Meal Menu</Text>
+                <Image source={require('../assets/images/meal.png')} style={styles.cardImageMeal} />
+              </GlassContainer>
             </View>
 
-            {/* Right Column */}
             <View style={styles.gridColumn}>
-              <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.navigate('AiAssistant')}>
-                <GlassContainer style={styles.gridCardAi} borderRadius={28}>
-                  <Text style={styles.cardTitle}>AI assistant</Text>
-                  <Image source={require('../assets/images/asistant.png')} style={styles.cardImageAi} />
-                </GlassContainer>
-              </TouchableOpacity>
+              <GlassContainer style={styles.gridCardAi} borderRadius={28}>
+                <Text style={styles.cardTitle}>AI assistant</Text>
+                <Image source={require('../assets/images/asistant.png')} style={styles.cardImageAi} />
+              </GlassContainer>
 
-              <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.navigate('PaymentBilling')}>
-                <GlassContainer style={styles.gridCardPayment} borderRadius={28}>
-                  <Text style={styles.cardTitle}>Payment &{'\n'}Billing</Text>
-                  <Image source={require('../assets/images/payment.png')} style={styles.cardImagePayment} />
-                </GlassContainer>
-              </TouchableOpacity>
+              <GlassContainer style={styles.gridCardPayment} borderRadius={28}>
+                <Text style={styles.cardTitle}>Payment &{'\n'}Billing</Text>
+                <Image source={require('../assets/images/payment.png')} style={styles.cardImagePayment} />
+              </GlassContainer>
             </View>
           </View>
-
           <View style={{ height: 120 }} />
         </ScrollView>
 
-        {/* SOS BUTTON (Absolute, Draggable) */}
         <GestureDetector gesture={panGesture}>
           <Animated.View style={[styles.sosContainer, rStyle]}>
             <LinearGradient
@@ -217,10 +244,7 @@ export default function DashboardScreen({ navigation }) {
             </LinearGradient>
           </Animated.View>
         </GestureDetector>
-
-        {/* BOTTOM NAVBAR */}
         <BottomNavbar activeTab="home" />
-
       </ImageBackground>
     </GestureHandlerRootView>
   );
@@ -241,7 +265,8 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     flexGrow: 1,
-    paddingTop: Platform.OS === 'ios' ? 60 : (StatusBar.currentHeight || 24) + 16,
+    paddingTop:
+      Platform.OS === 'ios' ? 60 : (StatusBar.currentHeight || 24) + 16,
   },
   header: {
     flexDirection: 'row',
@@ -448,7 +473,7 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(255,255,255,0.3)',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.10,
+    shadowOpacity: 0.1,
     shadowRadius: 32,
     elevation: 8,
   },
@@ -457,18 +482,38 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255,0.46)',
   },
   topInsetHighlight: {
-    position: 'absolute', top: 0, left: 0, right: 0, height: 1,
-    backgroundColor: 'rgba(255,255,255,0.5)', zIndex: 1,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 1,
+    backgroundColor: 'rgba(255,255,255,0.5)',
+    zIndex: 1,
   },
   bottomInsetHighlight: {
-    position: 'absolute', bottom: 0, left: 0, right: 0, height: 1,
-    backgroundColor: 'rgba(255,255,255,0.1)', zIndex: 1,
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 1,
+    backgroundColor: 'rgba(255,255,255,0.1)',
+    zIndex: 1,
   },
   topEdgeLine: {
-    position: 'absolute', top: 0, left: 0, right: 0, height: 1, zIndex: 2,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 1,
+    zIndex: 2,
   },
   leftEdgeLine: {
-    position: 'absolute', top: 0, left: 0, width: 1, height: '100%', zIndex: 2,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: 1,
+    height: '100%',
+    zIndex: 2,
   },
   contentWrapper: {
     flex: 1,
