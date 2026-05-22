@@ -246,6 +246,15 @@ export default function BillingSummaryScreen({ navigation }) {
                 <Text style={[styles.summaryValue, styles.redText]}>₹6,750</Text>
               </View>
             </GlassCard>
+
+            {/* Pay Now Button */}
+            <TouchableOpacity
+              activeOpacity={0.85}
+              style={styles.payNowBtn}
+              onPress={() => navigation.navigate('PayScreen')}
+            >
+              <Text style={styles.payNowText}>Pay Now</Text>
+            </TouchableOpacity>
           </View>
 
         </Animated.View>
@@ -301,6 +310,7 @@ const styles = StyleSheet.create({
     paddingVertical: 18,
     paddingHorizontal: 22,
     borderColor: 'rgba(255, 166, 0, 0.88)',
+    backgroundColor: 'rgba(255, 166, 0, 0.15)', // orange glass
     borderWidth: 1,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 6 },
@@ -486,12 +496,32 @@ const styles = StyleSheet.create({
     paddingHorizontal: 18,
     paddingBottom: Platform.OS === 'ios' ? 34 : 20,
     paddingTop: 10,
+    gap: 12,
     zIndex: 10,
+  },
+  payNowBtn: {
+    backgroundColor: '#6B6560',
+    borderRadius: 14,
+    paddingVertical: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.14,
+    shadowRadius: 8,
+    elevation: 5,
+  },
+  payNowText: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#fff',
+    letterSpacing: 0.4,
   },
   summaryCard: {
     paddingVertical: 22,
     paddingHorizontal: 24,
     borderColor: 'rgba(255, 166, 0, 0.88)',
+    backgroundColor: 'rgba(255, 166, 0, 0.27)', // orange glass
     borderWidth: 1,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: -4 },
