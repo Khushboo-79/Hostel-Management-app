@@ -17,6 +17,8 @@ import RoomSelectionScreen from './screens/RoomSelectionScreen';
 import BookingSlots from './screens/BookingSlots';
 import Thingsinfo from './screens/Thingsinfo';
 import OrderDetails from './screens/OrderDetails';
+import Paymentbill from './screens/paymentsScreen/Paymentbill';
+import Invoices from './screens/paymentsScreen/Invoices';
 
 const Stack = createNativeStackNavigator();
 
@@ -43,6 +45,7 @@ export default function App() {
         <Stack.Screen name="BookingSlots" component={BookingSlots} />
         <Stack.Screen name="Thingsinfo" component={Thingsinfo} />
         <Stack.Screen name="OrderDetails" component={OrderDetails} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );
