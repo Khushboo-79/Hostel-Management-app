@@ -214,32 +214,20 @@ export default function DashboardScreen({ navigation }) {
 
               <GlassContainer style={styles.gridCardMeal} borderRadius={28}>
                 <Text style={styles.cardTitle}>Meal Menu</Text>
-                <Image
-                  source={require('../assets/images/meal.png')}
-                  style={styles.cardImageMeal}
-                />
+                <Image source={require('../assets/images/meal.png')} style={styles.cardImageMeal} />
               </GlassContainer>
             </View>
 
             <View style={styles.gridColumn}>
               <GlassContainer style={styles.gridCardAi} borderRadius={28}>
                 <Text style={styles.cardTitle}>AI assistant</Text>
-                <Image
-                  source={require('../assets/images/asistant.png')}
-                  style={styles.cardImageAi}
-                />
+                <Image source={require('../assets/images/asistant.png')} style={styles.cardImageAi} />
               </GlassContainer>
-              <TouchableOpacity
-                activeOpacity={0.8}
-                onPress={() => navigation.navigate('Paymentbill')}
-              >
+
               <GlassContainer style={styles.gridCardPayment} borderRadius={28}>
                 <Text style={styles.cardTitle}>Payment &{'\n'}Billing</Text>
-                <Image
-                  source={require('../assets/images/payment.png')}
-                  style={styles.cardImagePayment}
-                />
-              </GlassContainer></TouchableOpacity>
+                <Image source={require('../assets/images/payment.png')} style={styles.cardImagePayment} />
+              </GlassContainer>
             </View>
           </View>
           <View style={{ height: 120 }} />

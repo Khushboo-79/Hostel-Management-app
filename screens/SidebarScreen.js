@@ -82,6 +82,7 @@ export default function SidebarScreen({ navigation }) {
         useNativeDriver: true,
       }).start();
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handlePress = (label) => {
