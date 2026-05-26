@@ -134,7 +134,7 @@ export default function PaymentBillingScreen({ navigation }) {
           {/* ── HEADER ─────────────────────────────────────────── */}
           <View style={styles.header}>
             <TouchableOpacity
-              onPress={() => navigation.goBack()}
+              onPress={() => navigation.navigate('Dashboard')}
               style={styles.backBtn}
               activeOpacity={0.7}
             >

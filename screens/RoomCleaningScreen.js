@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { BlurView } from '@react-native-community/blur';
 import LinearGradient from 'react-native-linear-gradient';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import BottomNavbar from '../components/BottomNavbar';
 
 const { width, height } = Dimensions.get('window');
@@ -143,7 +144,7 @@ const glassStyles = StyleSheet.create({
 /* ─────────────────────────────────────────────────────────
    Main Screen
 ───────────────────────────────────────────────────────── */
-export default function RoomCleaningScreen() {
+export default function RoomCleaningScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
@@ -172,18 +173,33 @@ export default function RoomCleaningScreen() {
       >
         {/* ── HEADER ─────────────────────────────────── */}
         <View style={styles.header}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Services')}
+            style={styles.backBtn}
+            activeOpacity={0.7}
+          >
+            <Icon name="arrow-left" size={28} color="#111" />
+          </TouchableOpacity>
           <Text style={styles.headerTitle}>Room Cleaning</Text>
         </View>
 
         {/* ── ACTION BUTTONS ─────────────────────────── */}
         <View style={styles.actionRow}>
-          <TouchableOpacity style={styles.actionButtonWrap} activeOpacity={0.75}>
+          <TouchableOpacity
+            style={styles.actionButtonWrap}
+            activeOpacity={0.75}
+            onPress={() => navigation.navigate('RoomRequest')}
+          >
             <GlassPanel style={styles.actionButton} intensity={30}>
               <Text style={styles.actionButtonText}>{'Room\nRequest'}</Text>
             </GlassPanel>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.actionButtonWrap} activeOpacity={0.75}>
+          <TouchableOpacity
+            style={styles.actionButtonWrap}
+            activeOpacity={0.75}
+            onPress={() => navigation.navigate('WashroomRequest')}
+          >
             <GlassPanel style={styles.actionButton} intensity={30}>
               <Text style={styles.actionButtonText}>{'Washroom\nRequest'}</Text>
             </GlassPanel>
@@ -253,15 +269,22 @@ const styles = StyleSheet.create({
 
   /* Header */
   header: {
+    flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 32,
+  },
+  backBtn: {
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
   },
   headerTitle: {
     fontSize: 26,
     fontWeight: '500',
     color: '#1A1A1A',
     letterSpacing: 0.4,
-
+    marginLeft: 4,
   },
 
   /* Action buttons */
