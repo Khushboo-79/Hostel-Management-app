@@ -62,7 +62,7 @@ const DetailRow = ({ label, value, bold }) => (
 );
 
 // ─── Screen Component ─────────────────────────────────────────────────────────
-export default function PaymentFailedScreen({ navigation }) {
+export default function PaymentSuccessScreen({ navigation }) {
   const opacity = useSharedValue(0);
   const translateY = useSharedValue(16);
 
@@ -77,6 +77,10 @@ export default function PaymentFailedScreen({ navigation }) {
     opacity: opacity.value,
     transform: [{ translateY: translateY.value }],
   }));
+
+  const handleDownloadReceipt = () => {
+    navigation.navigate('DownloadReceipt');
+  };
 
   return (
     <View style={styles.root}>
@@ -96,13 +100,13 @@ export default function PaymentFailedScreen({ navigation }) {
           <View style={styles.fixedTop}>
             <View style={styles.header}>
               <TouchableOpacity
-                onPress={() => navigation.navigate('BillingSummary')}
+                onPress={() => navigation.navigate('PaymentFailed')}
                 style={styles.backBtn}
                 activeOpacity={0.7}
               >
                 <Icon name="arrow-left" size={28} color="#111" />
               </TouchableOpacity>
-              <Text style={styles.headerTitle}>Payment Failed</Text>
+              <Text style={styles.headerTitle}>Payment successful</Text>
               <View style={styles.headerSpacer} />
             </View>
           </View>
@@ -113,59 +117,60 @@ export default function PaymentFailedScreen({ navigation }) {
             style={styles.scrollArea}
             contentContainerStyle={styles.scrollContent}
           >
-            {/* ── Failed Icon ── */}
+            {/* ── Success Icon ── */}
             <View style={styles.iconCircleWrapper}>
               <View style={styles.iconCircle}>
-                <Icon name="close" size={48} color="#fff" />
+                <Icon name="check" size={48} color="#fff" />
               </View>
             </View>
 
             {/* ── Text Content ── */}
-            <Text style={styles.mainTitle}>Payment Failed!</Text>
+            <Text style={styles.mainTitle}>Payment successful</Text>
             <Text style={styles.subtitleText}>Your payment of</Text>
             <Text style={styles.amountText}>6,720</Text>
-            <Text style={styles.statusText}>was Failed.</Text>
-            <Text style={styles.descriptionText}>
-              {"We couldn't process your payment.\nPlease try again."}
-            </Text>
+            <Text style={styles.statusText}>was successful.</Text>
+
+            {/* Spacer to balance layout without description text */}
+            <View style={styles.spacer} />
 
             {/* ── Transaction Details Card ── */}
             <GlassCard
               style={styles.detailsCard}
               borderRadius={20}
-              glassBgColor="rgba(255, 166, 0, 0.27)"
+              glassBgColor="rgba(255, 166, 0, 0.15)"
             >
               <DetailRow label="Transaction ID" value="TXN1234567890" />
               <View style={styles.cardDivider} />
-              <DetailRow label="Reason" value="Insufficient Balance" bold />
+              <DetailRow label="Paid To" value="INV-2025-0456" bold />
               <View style={styles.cardDivider} />
               <DetailRow label="Date & Time" value="10/05/24,11:45 AM" bold />
+              <View style={styles.cardDivider} />
+              <DetailRow label="Payment Method" value="UPI - PhonePe" bold />
             </GlassCard>
           </ScrollView>
 
           {/* ══════════════ FIXED BOTTOM BUTTONS ══════════════ */}
           <View style={styles.fixedBottom}>
-            {/* Try Again - Grey button */}
+            {/* View Invoice - Grey button */}
             <TouchableOpacity
               activeOpacity={0.85}
-              style={styles.tryAgainBtn}
-              onPress={() => navigation.navigate('PaymentSuccessScreen')}
-
+              style={styles.viewInvoiceBtn}
+              onPress={() => navigation.navigate('InvoiceDetail', { invoiceId: '1' })}
             >
-              <Text style={styles.tryAgainText}>Try Again</Text>
+              <Text style={styles.viewInvoiceText}>View Invoice</Text>
             </TouchableOpacity>
 
-            {/* Change Payment Method - Beige outlined card button */}
+            {/* Download Receipt - Beige outlined card button */}
             <TouchableOpacity
               activeOpacity={0.85}
-              onPress={() => navigation.navigate('PayScreen')}
+              onPress={handleDownloadReceipt}
             >
               <GlassCard
-                style={styles.changeMethodCard}
+                style={styles.downloadReceiptCard}
                 borderRadius={14}
-                glassBgColor="rgba(255, 166, 0, 0.27)"
+                glassBgColor="rgba(255, 166, 0, 0.15)"
               >
-                <Text style={styles.changeMethodText}>Change Payment Method</Text>
+                <Text style={styles.downloadReceiptText}>Download Receipt</Text>
               </GlassCard>
             </TouchableOpacity>
           </View>
@@ -227,7 +232,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
-  // ── Failed Icon ──
+  // ── Success Icon ──
   iconCircleWrapper: {
     marginBottom: 24,
     alignItems: 'center',
@@ -236,10 +241,10 @@ const styles = StyleSheet.create({
     width: 88,
     height: 88,
     borderRadius: 44,
-    backgroundColor: '#E53935',
+    backgroundColor: '#2E7D32',
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#E53935',
+    shadowColor: '#2E7D32',
     shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.35,
     shadowRadius: 14,
@@ -277,13 +282,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 12,
   },
-  descriptionText: {
-    fontSize: 15,
-    fontWeight: '400',
-    color: 'rgba(0,0,0,0.60)',
-    textAlign: 'center',
-    lineHeight: 22,
-    marginBottom: 28,
+  spacer: {
+    height: 16,
   },
 
   // ── Transaction Details Card ──
@@ -329,7 +329,7 @@ const styles = StyleSheet.create({
     gap: 12,
     zIndex: 10,
   },
-  tryAgainBtn: {
+  viewInvoiceBtn: {
     backgroundColor: '#6B6560',
     borderRadius: 14,
     paddingVertical: 18,
@@ -341,13 +341,13 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 5,
   },
-  tryAgainText: {
+  viewInvoiceText: {
     fontSize: 16,
     fontWeight: '700',
     color: '#fff',
     letterSpacing: 0.4,
   },
-  changeMethodCard: {
+  downloadReceiptCard: {
     paddingVertical: 18,
     borderColor: 'rgba(255, 166, 0, 0.88)',
     backgroundColor: 'rgba(255, 166, 0, 0.15)', // orange glass
@@ -355,7 +355,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  changeMethodText: {
+  downloadReceiptText: {
     fontSize: 16,
     fontWeight: '700',
     color: '#111',

@@ -26,6 +26,18 @@ import InvoiceDetailScreen from './screens/InvoiceDetailScreen';
 import BillingSummaryScreen from './screens/BillingSummaryScreen';
 import PayScreen from './screens/PayScreen';
 import PaymentFailedScreen from './screens/PaymentFailedScreen';
+import PaymentSuccessScreen from './screens/PaymentSuccessScreen';
+import DownloadReceiptScreen from './screens/DownloadReceiptScreen';
+import HelpSupportScreen from './screens/HelpSupportScreen';
+import WashroomRequestScreen from './screens/WashroomRequestScreen';
+import RoomRequestScreen from './screens/RoomRequestScreen';
+import GymScreen from './screens/GymScreen';
+import GymViewPlansScreen from './screens/GymViewPlansScreen';
+import VehicleRentScreen from './screens/services/vehicleRent/VehicleRentScreen';
+import AllVehicleScreen from './screens/services/vehicleRent/AllVehicleScreen';
+import VehicleProductDetailsScreen from './screens/services/vehicleRent/VehicleProductDetailsScreen';
+import BookVehicleScreen from './screens/services/vehicleRent/BookVehicleScreen';
+
 import CabBooking from './screens/CabBooking/CabBooking';
 import BookRide from './screens/CabBooking/BookRide';
 import MyRides from './screens/CabBooking/MyRides';
@@ -66,6 +78,17 @@ export default function App() {
         <Stack.Screen name="BillingSummary" component={BillingSummaryScreen} />
         <Stack.Screen name="PayScreen" component={PayScreen} />
         <Stack.Screen name="PaymentFailed" component={PaymentFailedScreen} />
+        <Stack.Screen name="PaymentSuccessScreen" component={PaymentSuccessScreen} />
+        <Stack.Screen name="DownloadReceipt" component={DownloadReceiptScreen} />
+        <Stack.Screen name="HelpSupport" component={HelpSupportScreen} />
+        <Stack.Screen name="WashroomRequest" component={WashroomRequestScreen} />
+        <Stack.Screen name="RoomRequest" component={RoomRequestScreen} />
+        <Stack.Screen name="Gym" component={GymScreen} />
+        <Stack.Screen name="GymViewPlans" component={GymViewPlansScreen} />
+        <Stack.Screen name="VehicleRent" component={VehicleRentScreen} />
+        <Stack.Screen name="AllVehicle" component={AllVehicleScreen} />
+        <Stack.Screen name="VehicleProductDetails" component={VehicleProductDetailsScreen} />
+        <Stack.Screen name="BookVehicle" component={BookVehicleScreen} />
         <Stack.Screen name="CabBooking" component={CabBooking} />
         <Stack.Screen name="BookRide" component={BookRide} />
         <Stack.Screen name="MyRides" component={MyRides} />

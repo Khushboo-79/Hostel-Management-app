@@ -175,7 +175,7 @@ export default function BillingSummaryScreen({ navigation }) {
             {/* Header */}
             <View style={styles.header}>
               <TouchableOpacity
-                onPress={() => navigation.goBack()}
+                onPress={() => navigation.navigate('PaymentBilling')}
                 style={styles.backBtn}
                 activeOpacity={0.7}
               >

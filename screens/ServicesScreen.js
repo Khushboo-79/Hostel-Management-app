@@ -151,12 +151,18 @@ const Card = ({ item, index, totalCards, translateX, translateY, activeIndex, na
   const handleNavigation = () => {
     if (item.id === '1') navigation.navigate('RoomCleaning');
     if (item.id === '2') navigation.navigate('Laundry');
+    if (item.id === '3') navigation.navigate('Gym');
+    if (item.id === '4') navigation.navigate('VehicleRent');
     if (item.id === '7') navigation.navigate('StudyRoom');
     if (item.id === '5') navigation.navigate('CabBooking');
   };
 
   const tapGesture = Gesture.Tap().onEnd(() => {
+<<<<<<< HEAD
     if (activeIndex.value === index && (item.id === '1' || item.id === '2' || item.id === '5' || item.id === '7')) {
+=======
+    if (activeIndex.value === index && (item.id === '1' || item.id === '2' || item.id === '3' || item.id === '4' || item.id === '7')) {
+>>>>>>> fd5d80376ecc7fc0b566261a599ce85e6b32c8be
       runOnJS(handleNavigation)();
     }
   });
