@@ -68,7 +68,7 @@ export default function GymScreen({ navigation }) {
     <View style={styles.root}>
       <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
 
-      {/* ── FULL SCREEN BACKGROUND ───────────────────────── */}
+
       <View style={StyleSheet.absoluteFill}>
         <Image
           source={require('../assets/images/gym.jpeg')}

@@ -44,8 +44,11 @@ const BottomNavbar = ({ activeTab }) => {
           )}
         </TouchableOpacity>
 
-        <TouchableOpacity style={activeTab === 'badge' ? styles.navItemActive : styles.navItem}>
-          {activeTab === 'badge' ? (
+        <TouchableOpacity
+          style={activeTab === 'RewardsTab' ? styles.navItemActive : styles.navItem}
+          onPress={() => navigation.navigate('RewardsTab')}
+        >
+          {activeTab === 'RewardsTab' ? (
             <View style={styles.activeIconCircle}>
               <Image source={require('../assets/images/badge.png')} style={styles.navIconActive} />
             </View>

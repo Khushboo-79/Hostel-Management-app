@@ -38,6 +38,11 @@ import AllVehicleScreen from './screens/services/vehicleRent/AllVehicleScreen';
 import VehicleProductDetailsScreen from './screens/services/vehicleRent/VehicleProductDetailsScreen';
 import BookVehicleScreen from './screens/services/vehicleRent/BookVehicleScreen';
 
+import CabBooking from './screens/CabBooking/CabBooking';
+import BookRide from './screens/CabBooking/BookRide';
+import MyRides from './screens/CabBooking/MyRides';
+import RideTracking from './screens/CabBooking/RideTracking';
+import RewardsTab from './screens/Rewards/RewardsTab';
 
 const Stack = createNativeStackNavigator();
 
@@ -84,6 +89,11 @@ export default function App() {
         <Stack.Screen name="AllVehicle" component={AllVehicleScreen} />
         <Stack.Screen name="VehicleProductDetails" component={VehicleProductDetailsScreen} />
         <Stack.Screen name="BookVehicle" component={BookVehicleScreen} />
+        <Stack.Screen name="CabBooking" component={CabBooking} />
+        <Stack.Screen name="BookRide" component={BookRide} />
+        <Stack.Screen name="MyRides" component={MyRides} />
+        <Stack.Screen name="RideTracking" component={RideTracking} />
+        <Stack.Screen name="RewardsTab" component={RewardsTab} />
       </Stack.Navigator>
     </NavigationContainer>
   );

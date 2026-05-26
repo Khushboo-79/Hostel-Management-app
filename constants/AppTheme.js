@@ -158,6 +158,58 @@ export const COLORS = {
   transparent: 'transparent',
 };
 
+export const CAB_COLORS = {
+  bgWarm: '#C4A882',
+
+  overlayWarm: 'rgba(196,168,130,0.25)',
+
+  glass: 'rgba(255,255,255,0.22)',
+
+  glassBorder: 'rgba(255,255,255,0.55)',
+
+  glassGlow: 'rgba(255,255,255,0.15)',
+
+  textDark: '#1A1008',
+
+  textMuted: 'rgba(26,16,8,0.5)',
+
+  tabBg: 'rgba(255,255,255,0.20)',
+
+  tabBorder: 'rgba(255,255,255,0.40)',
+
+  liveBg: 'rgba(30,200,100,0.18)',
+
+  liveBorder: 'rgba(30,200,100,0.4)',
+
+  liveText: '#0A5A2A',
+};
+
+export const REWARDS_COLORS = {
+  background: '#F3EDE4',
+
+  surface: 'rgba(255,255,255,0.34)',
+
+  surfaceStrong: 'rgba(255,255,255,0.52)',
+
+  border: 'rgba(78,78,78,0.55)',
+
+  textDark: '#090807',
+
+  textMuted: 'rgba(9,8,7,0.68)',
+
+  gold: '#B47A2B',
+
+  goldLight: 'rgba(180,122,43,0.22)',
+
+  darkGlass: 'rgba(70,68,65,0.82)',
+
+  navGlass: 'rgba(90,88,84,0.58)',
+
+  progressTrack: 'rgba(255,255,255,0.58)',
+
+  progressFill: '#C58A32',
+};
+
 // ───────────────────────────────────────────────────────────
 // GRADIENTS
 // ───────────────────────────────────────────────────────────
@@ -614,6 +666,10 @@ export const darkTheme = {
 
 const appTheme = {
   COLORS,
+
+  CAB_COLORS,
+
+  REWARDS_COLORS,
 
   GRADIENTS,
 

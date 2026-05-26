@@ -102,8 +102,6 @@ export default function GymViewPlansScreen({ navigation }) {
           </View>
 
         </View>
-
-        {/* ══════════ SCROLLABLE CONTENT (PLANS LIST) ══════════ */}
         <ScrollView
           showsVerticalScrollIndicator={false}
           style={styles.scrollArea}
