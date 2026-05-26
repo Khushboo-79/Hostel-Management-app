@@ -152,10 +152,11 @@ const Card = ({ item, index, totalCards, translateX, translateY, activeIndex, na
     if (item.id === '1') navigation.navigate('RoomCleaning');
     if (item.id === '2') navigation.navigate('Laundry');
     if (item.id === '7') navigation.navigate('StudyRoom');
+    if (item.id === '5') navigation.navigate('CabBooking');
   };
 
   const tapGesture = Gesture.Tap().onEnd(() => {
-    if (activeIndex.value === index && (item.id === '1' || item.id === '2' || item.id === '7')) {
+    if (activeIndex.value === index && (item.id === '1' || item.id === '2' || item.id === '5' || item.id === '7')) {
       runOnJS(handleNavigation)();
     }
   });
@@ -215,8 +216,6 @@ export default function ServicesScreen() {
   return (
     <GestureHandlerRootView style={styles.container}>
       <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
-
-      {/* BACKGROUND */}
       <View style={StyleSheet.absoluteFill}>
         <Image source={require('../assets/images/room1.jpg')} style={styles.backgroundImage} resizeMode="cover" />
         <BlurView style={StyleSheet.absoluteFill} blurType="light" blurAmount={15} reducedTransparencyFallbackColor="#EBE5DF" />
@@ -236,8 +235,6 @@ export default function ServicesScreen() {
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Services</Text>
       </View>
-
-      {/* CARDS CONTAINER */}
       <GestureDetector gesture={panGesture}>
         <View style={styles.cardsContainer} pointerEvents="box-none">
           {INITIAL_DATA.map((item, index) => (

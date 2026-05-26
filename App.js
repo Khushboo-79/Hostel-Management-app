@@ -26,6 +26,11 @@ import InvoiceDetailScreen from './screens/InvoiceDetailScreen';
 import BillingSummaryScreen from './screens/BillingSummaryScreen';
 import PayScreen from './screens/PayScreen';
 import PaymentFailedScreen from './screens/PaymentFailedScreen';
+import CabBooking from './screens/CabBooking/CabBooking';
+import BookRide from './screens/CabBooking/BookRide';
+import MyRides from './screens/CabBooking/MyRides';
+import RideTracking from './screens/CabBooking/RideTracking';
+import RewardsTab from './screens/Rewards/RewardsTab';
 
 const Stack = createNativeStackNavigator();
 
@@ -61,6 +66,11 @@ export default function App() {
         <Stack.Screen name="BillingSummary" component={BillingSummaryScreen} />
         <Stack.Screen name="PayScreen" component={PayScreen} />
         <Stack.Screen name="PaymentFailed" component={PaymentFailedScreen} />
+        <Stack.Screen name="CabBooking" component={CabBooking} />
+        <Stack.Screen name="BookRide" component={BookRide} />
+        <Stack.Screen name="MyRides" component={MyRides} />
+        <Stack.Screen name="RideTracking" component={RideTracking} />
+        <Stack.Screen name="RewardsTab" component={RewardsTab} />
       </Stack.Navigator>
     </NavigationContainer>
   );

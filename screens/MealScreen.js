@@ -21,7 +21,8 @@ import Animated, {
   Easing,
 } from 'react-native-reanimated';
 
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
+const dishSize = Math.min(width * 0.4, 154);
 
 export default function MealScreen({ navigation }) {
   const opacity = useSharedValue(0);
@@ -42,17 +43,18 @@ export default function MealScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <StatusBar translucent backgroundColor="transparent" barStyle="light-content" />
+      <StatusBar translucent backgroundColor="transparent"
+       barStyle="light-content" />
 
       <ImageBackground
-        source={require('../assets/images/meal.png')}
+        source={require('../assets/images/meal1.webp')}
         style={styles.background}
         resizeMode="cover"
       >
         <BlurView
           style={StyleSheet.absoluteFill}
           blurType="light"
-          blurAmount={16}
+          blurAmount={18}
           reducedTransparencyFallbackColor="rgba(0,0,0,0.5)"
         />
         <View style={styles.overlay} />
@@ -109,7 +111,7 @@ export default function MealScreen({ navigation }) {
                   <View style={[styles.cardContent, styles.contentRight]}>
                     <Text style={styles.cardTitle}>Breakfast</Text>
                     <Text style={styles.cardSubtitle}>
-                      Start the day with healthy{'\n'}and energizing meals
+                      Start the day with healthy and energizing meals
                     </Text>
                   </View>
                 </View>
@@ -154,7 +156,7 @@ export default function MealScreen({ navigation }) {
                   <View style={[styles.cardContent, styles.contentLeft]}>
                     <Text style={styles.cardTitle}>Lunch</Text>
                     <Text style={styles.cardSubtitle}>
-                      Wholesome afternoon{'\n'}meals with daily variety
+                      Wholesome afternoon meals with daily variety
                     </Text>
                   </View>
                 </View>
@@ -199,7 +201,7 @@ export default function MealScreen({ navigation }) {
                   <View style={[styles.cardContent, styles.contentRight]}>
                     <Text style={styles.cardTitle}>Dinner</Text>
                     <Text style={styles.cardSubtitle}>
-                      Comforting and satisfying{'\n'}meals for the evening
+                      Comforting and satisfying meals for the evening
                     </Text>
                   </View>
                 </View>
@@ -227,6 +229,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#000',
+    
   },
   background: {
     flex: 1,
@@ -235,15 +238,15 @@ const styles = StyleSheet.create({
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0, 0, 0, 0.45)', // Slightly dark overlay to maintain warm aesthetic
+    backgroundColor: 'rgba(0, 0, 0, 0.18)',
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingTop: Platform.OS === 'ios' ? 60 : (StatusBar.currentHeight || 24) + 16,
-    paddingBottom: 20,
+    paddingHorizontal: 28,
+    paddingTop: Platform.OS === 'ios' ? 68 : (StatusBar.currentHeight || 24) + 26,
+    // paddingBottom: 58,
   },
   backBtn: {
     width: 44,
@@ -258,10 +261,10 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     color: '#fff',
-    fontSize: 22,
-    fontWeight: '600',
-    letterSpacing: 0.5,
-    textShadowColor: 'rgba(0,0,0,0.3)',
+    fontSize: 29,
+    fontWeight: '400',
+    letterSpacing: 0,
+    // textShadowColor: 'rgba(0,0,0,0.3)',
     textShadowOffset: { width: 0, height: 1 },
     textShadowRadius: 3,
   },
@@ -269,33 +272,33 @@ const styles = StyleSheet.create({
     width: 44,
   },
   scrollContent: {
-    paddingHorizontal: 24,
-    paddingTop: 12,
-    paddingBottom: 40,
+    paddingHorizontal: 28,
+    paddingTop: 14,
+    paddingBottom: 60,
   },
   cardTouchable: {
-    marginBottom: 28,
+    marginBottom: 36,
   },
   cardContainer: {
     position: 'relative',
-    height: 140,
+    height: 156,
     justifyContent: 'center',
   },
   cardShell: {
-    height: 120,
-    borderRadius: 24,
+    height: 124,
+    borderRadius: 22,
     overflow: 'hidden',
     borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.3)',
+    borderColor: 'rgba(255, 255, 255, 0.42)',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.15,
-    shadowRadius: 16,
-    elevation: 8,
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.24,
+    shadowRadius: 18,
+    elevation: 10,
   },
   glassBg: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(255, 255, 255, 0.46)', // Exact same glass opacity and color as Login
+    backgroundColor: 'rgba(130, 112, 92, 0.38)',
   },
   topInsetHighlight: {
     position: 'absolute',
@@ -336,55 +339,56 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   contentLeft: {
-    paddingLeft: 24,
-    paddingRight: 115,
+    paddingLeft: 18,
+    paddingRight: dishSize - 20,
   },
   contentRight: {
-    paddingLeft: 115,
-    paddingRight: 24,
+    paddingLeft: dishSize - 6,
+    paddingRight: 18,
   },
   cardTitle: {
     color: '#ffffff',
-    fontSize: 26,
-    fontWeight: '700',
+    fontSize: 29,
+    fontWeight: '800',
     fontStyle: 'italic',
-    marginBottom: 6,
-    textShadowColor: 'rgba(0,0,0,0.3)',
-    textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 3,
+    letterSpacing: 0,
+    marginBottom: 0,
+    textShadowColor: 'rgba(0,0,0,0.35)',
+    textShadowOffset: { width: 0, height: 2 },
+    textShadowRadius: 4,
   },
   cardSubtitle: {
     color: '#ffffff',
-    fontSize: 13,
+    fontSize: 16,
     fontStyle: 'italic',
-    lineHeight: 18,
-    fontWeight: '500',
-    textShadowColor: 'rgba(0,0,0,0.25)',
-    textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 2.5,
+    lineHeight: 19,
+    fontWeight: '800',
+    textShadowColor: 'rgba(0,0,0,0.35)',
+    textShadowOffset: { width: 0, height: 2 },
+    textShadowRadius: 4,
   },
   imageContainer: {
     position: 'absolute',
-    width: 120,
-    height: 120,
-    borderRadius: 60,
+    width: dishSize,
+    height: dishSize,
+    borderRadius: dishSize / 2,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.35,
-    shadowRadius: 12,
-    elevation: 12,
+    shadowOffset: { width: 0, height: 12 },
+    shadowOpacity: 0.38,
+    shadowRadius: 14,
+    elevation: 14,
     zIndex: 10,
-    top: 10, // Centered inside 140 height container
+    top: 1,
   },
   imageLeft: {
-    left: -12,
+    left: -42,
   },
   imageRight: {
-    right: -12,
+    right: -22,
   },
   foodImage: {
     width: '100%',
     height: '100%',
-    borderRadius: 60,
+    borderRadius: dishSize / 2,
   },
 });

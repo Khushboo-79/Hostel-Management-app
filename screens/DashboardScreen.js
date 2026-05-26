@@ -211,23 +211,48 @@ export default function DashboardScreen({ navigation }) {
                   />
                 </GlassContainer>
               </TouchableOpacity>
-
-              <GlassContainer style={styles.gridCardMeal} borderRadius={28}>
-                <Text style={styles.cardTitle}>Meal Menu</Text>
-                <Image source={require('../assets/images/meal.png')} style={styles.cardImageMeal} />
-              </GlassContainer>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() => navigation.navigate('Meal')}
+              >
+                <GlassContainer style={styles.gridCardMeal} borderRadius={28}>
+                  <Text style={styles.cardTitle}>Meal Menu</Text>
+                  <Image
+                    source={require('../assets/images/meal.png')}
+                    style={styles.cardImageMeal}
+                  />
+                </GlassContainer>
+              </TouchableOpacity>
             </View>
 
             <View style={styles.gridColumn}>
-              <GlassContainer style={styles.gridCardAi} borderRadius={28}>
-                <Text style={styles.cardTitle}>AI assistant</Text>
-                <Image source={require('../assets/images/asistant.png')} style={styles.cardImageAi} />
-              </GlassContainer>
-
-              <GlassContainer style={styles.gridCardPayment} borderRadius={28}>
-                <Text style={styles.cardTitle}>Payment &{'\n'}Billing</Text>
-                <Image source={require('../assets/images/payment.png')} style={styles.cardImagePayment} />
-              </GlassContainer>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() => navigation.navigate('AiAssistant')}
+              >
+                <GlassContainer style={styles.gridCardAi} borderRadius={28}>
+                  <Text style={styles.cardTitle}>AI assistant</Text>
+                  <Image
+                    source={require('../assets/images/asistant.png')}
+                    style={styles.cardImageAi}
+                  />
+                </GlassContainer>
+              </TouchableOpacity>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() => navigation.navigate('PaymentBilling')}
+              >
+                <GlassContainer
+                  style={styles.gridCardPayment}
+                  borderRadius={28}
+                >
+                  <Text style={styles.cardTitle}>Payment &{'\n'}Billing</Text>
+                  <Image
+                    source={require('../assets/images/payment.png')}
+                    style={styles.cardImagePayment}
+                  />
+                </GlassContainer>
+              </TouchableOpacity>
             </View>
           </View>
           <View style={{ height: 120 }} />
