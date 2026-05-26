@@ -208,7 +208,7 @@ export default function PayScreen({ navigation }) {
             </GlassCard>
 
             {/* Proceed to Pay Button - Premium Disabled Gray */}
-            <TouchableOpacity activeOpacity={0.8} style={styles.proceedBtn}>
+            <TouchableOpacity activeOpacity={0.8} style={styles.proceedBtn} onPress={() => navigation.navigate('PaymentFailed')}>
               <Text style={styles.proceedText}>Proceed to Pay</Text>
             </TouchableOpacity>
           </View>

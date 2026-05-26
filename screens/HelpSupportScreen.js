@@ -8,6 +8,7 @@ import {
   StatusBar,
   Platform,
   ScrollView,
+  Alert,
 } from 'react-native';
 import { BlurView } from '@react-native-community/blur';
 import LinearGradient from 'react-native-linear-gradient';
@@ -53,16 +54,8 @@ const GlassCard = ({ children, style, borderRadius = 16, glassBgColor }) => (
   </View>
 );
 
-// ─── Transaction Detail Row ───────────────────────────────────────────────────
-const DetailRow = ({ label, value, bold }) => (
-  <View style={styles.detailRow}>
-    <Text style={styles.detailLabel}>{label}</Text>
-    <Text style={[styles.detailValue, bold && styles.detailValueBold]}>{value}</Text>
-  </View>
-);
-
 // ─── Screen Component ─────────────────────────────────────────────────────────
-export default function PaymentFailedScreen({ navigation }) {
+export default function HelpSupportScreen({ navigation }) {
   const opacity = useSharedValue(0);
   const translateY = useSharedValue(16);
 
@@ -78,6 +71,22 @@ export default function PaymentFailedScreen({ navigation }) {
     transform: [{ translateY: translateY.value }],
   }));
 
+  const handleQueryPress = (query) => {
+    Alert.alert('Query Info', `Selected query: "${query}"`);
+  };
+
+  const handleContactSupport = () => {
+    Alert.alert('Support Helpline', 'Connecting to support via call/chat...');
+  };
+
+  const commonQueries = [
+    'How to make a payment?',
+    'How to download invoice?',
+    'When is the due date?',
+    'How to get a receipt?',
+    'What payment methods are Availaible?',
+  ];
+
   return (
     <View style={styles.root}>
       <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
@@ -87,23 +96,22 @@ export default function PaymentFailedScreen({ navigation }) {
         style={styles.bg}
         resizeMode="cover"
       >
-        {/* Consistent dark overlay */}
+        {/* Dim overlay */}
         <View style={styles.bgOverlay} />
 
         <Animated.View style={animStyle}>
 
-          {/* ══════════════ FIXED HEADER ══════════════ */}
+          {/* ══════════════ FIXED TOP HEADER ══════════════ */}
           <View style={styles.fixedTop}>
             <View style={styles.header}>
               <TouchableOpacity
-                onPress={() => navigation.navigate('BillingSummary')}
+                onPress={() => navigation.navigate('DownloadReceipt')}
                 style={styles.backBtn}
                 activeOpacity={0.7}
               >
                 <Icon name="arrow-left" size={28} color="#111" />
               </TouchableOpacity>
-              <Text style={styles.headerTitle}>Payment Failed</Text>
-              <View style={styles.headerSpacer} />
+              <Text style={styles.headerTitle}>Help & Support</Text>
             </View>
           </View>
 
@@ -113,62 +121,52 @@ export default function PaymentFailedScreen({ navigation }) {
             style={styles.scrollArea}
             contentContainerStyle={styles.scrollContent}
           >
-            {/* ── Failed Icon ── */}
-            <View style={styles.iconCircleWrapper}>
-              <View style={styles.iconCircle}>
-                <Icon name="close" size={48} color="#fff" />
-              </View>
-            </View>
+            {/* Common Queries Heading */}
+            <Text style={styles.sectionTitle}>Common Queries</Text>
 
-            {/* ── Text Content ── */}
-            <Text style={styles.mainTitle}>Payment Failed!</Text>
-            <Text style={styles.subtitleText}>Your payment of</Text>
-            <Text style={styles.amountText}>6,720</Text>
-            <Text style={styles.statusText}>was Failed.</Text>
-            <Text style={styles.descriptionText}>
-              {"We couldn't process your payment.\nPlease try again."}
-            </Text>
+            {/* Queries Translucent Card */}
+            <GlassCard style={styles.queriesCard} borderRadius={24}>
+              {commonQueries.map((query, index) => (
+                <View key={query}>
+                  {index > 0 && <View style={styles.rowDivider} />}
+                  <TouchableOpacity
+                    onPress={() => handleQueryPress(query)}
+                    activeOpacity={0.7}
+                    style={styles.queryRow}
+                  >
+                    <Text style={styles.queryText}>{query}</Text>
+                    <Icon name="chevron-right" size={24} color="rgba(0,0,0,0.4)" />
+                  </TouchableOpacity>
+                </View>
+              ))}
+            </GlassCard>
 
-            {/* ── Transaction Details Card ── */}
+            {/* Bottom Support Contact Card */}
             <GlassCard
-              style={styles.detailsCard}
-              borderRadius={20}
-              glassBgColor="rgba(255, 166, 0, 0.27)"
+              style={styles.supportCard}
+              borderRadius={24}
+              glassBgColor="rgba(255, 166, 0, 0.15)"
             >
-              <DetailRow label="Transaction ID" value="TXN1234567890" />
-              <View style={styles.cardDivider} />
-              <DetailRow label="Reason" value="Insufficient Balance" bold />
-              <View style={styles.cardDivider} />
-              <DetailRow label="Date & Time" value="10/05/24,11:45 AM" bold />
+              <View style={styles.supportHeaderRow}>
+                <View style={styles.supportIconWrapper}>
+                  <Icon name="headset" size={40} color="#111" />
+                </View>
+                <View style={styles.supportTextContainer}>
+                  <Text style={styles.supportTitle}>Still need help?</Text>
+                  <Text style={styles.supportSubtitle}>Our support team is here to help you.</Text>
+                </View>
+              </View>
+
+              {/* Large Rounded Contact Support Button */}
+              <TouchableOpacity
+                onPress={handleContactSupport}
+                activeOpacity={0.85}
+                style={styles.contactBtn}
+              >
+                <Text style={styles.contactBtnText}>Contact Support</Text>
+              </TouchableOpacity>
             </GlassCard>
           </ScrollView>
-
-          {/* ══════════════ FIXED BOTTOM BUTTONS ══════════════ */}
-          <View style={styles.fixedBottom}>
-            {/* Try Again - Grey button */}
-            <TouchableOpacity
-              activeOpacity={0.85}
-              style={styles.tryAgainBtn}
-              onPress={() => navigation.navigate('PaymentSuccessScreen')}
-
-            >
-              <Text style={styles.tryAgainText}>Try Again</Text>
-            </TouchableOpacity>
-
-            {/* Change Payment Method - Beige outlined card button */}
-            <TouchableOpacity
-              activeOpacity={0.85}
-              onPress={() => navigation.navigate('PayScreen')}
-            >
-              <GlassCard
-                style={styles.changeMethodCard}
-                borderRadius={14}
-                glassBgColor="rgba(255, 166, 0, 0.27)"
-              >
-                <Text style={styles.changeMethodText}>Change Payment Method</Text>
-              </GlassCard>
-            </TouchableOpacity>
-          </View>
 
         </Animated.View>
       </ImageBackground>
@@ -189,7 +187,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.18)',
   },
 
-  // ── Fixed Header ──
+  // ── Fixed Top Header ──
   fixedTop: {
     paddingTop: TOP_PAD,
     paddingHorizontal: 18,
@@ -199,8 +197,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 6,
+    marginBottom: 10,
   },
   backBtn: {
     width: 40,
@@ -213,153 +210,104 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#111',
     letterSpacing: 0.2,
-    textAlign: 'center',
-    flex: 1,
+    marginLeft: 4,
   },
-  headerSpacer: { width: 40 },
 
   // ── Scrollable Middle ──
   scrollArea: { flex: 1 },
   scrollContent: {
     paddingHorizontal: 18,
-    paddingTop: 20,
-    paddingBottom: 20,
-    alignItems: 'center',
+    paddingTop: 10,
+    paddingBottom: Platform.OS === 'ios' ? 44 : 30,
   },
-
-  // ── Failed Icon ──
-  iconCircleWrapper: {
-    marginBottom: 24,
-    alignItems: 'center',
-  },
-  iconCircle: {
-    width: 88,
-    height: 88,
-    borderRadius: 44,
-    backgroundColor: '#E53935',
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#E53935',
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.35,
-    shadowRadius: 14,
-    elevation: 10,
-  },
-
-  // ── Text Content ──
-  mainTitle: {
-    fontSize: 28,
-    fontWeight: '800',
-    color: '#111',
-    letterSpacing: 0.2,
-    marginBottom: 10,
-    textAlign: 'center',
-  },
-  subtitleText: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: 'rgba(0,0,0,0.65)',
-    textAlign: 'center',
-    marginBottom: 4,
-  },
-  amountText: {
-    fontSize: 38,
-    fontWeight: '800',
-    color: '#111',
-    letterSpacing: -0.5,
-    textAlign: 'center',
-    marginBottom: 4,
-  },
-  statusText: {
-    fontSize: 18,
+  sectionTitle: {
+    fontSize: 20,
     fontWeight: '700',
     color: '#111',
-    textAlign: 'center',
-    marginBottom: 12,
-  },
-  descriptionText: {
-    fontSize: 15,
-    fontWeight: '400',
-    color: 'rgba(0,0,0,0.60)',
-    textAlign: 'center',
-    lineHeight: 22,
-    marginBottom: 28,
+    marginTop: 10,
+    marginBottom: 16,
+    letterSpacing: 0.2,
   },
 
-  // ── Transaction Details Card ──
-  detailsCard: {
-    width: '100%',
-    paddingVertical: 6,
-    paddingHorizontal: 0,
-    borderColor: 'rgba(255, 166, 0, 0.88)',
-    backgroundColor: 'rgba(255, 166, 0, 0.15)', // orange glass
+  // ── Queries Card ──
+  queriesCard: {
+    borderColor: 'rgba(255, 255, 255, 0.35)',
     borderWidth: 1,
+    marginBottom: 20,
   },
-  detailRow: {
+  queryRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 18,
+    paddingVertical: 30,
     paddingHorizontal: 22,
   },
-  detailLabel: {
+  queryText: {
     fontSize: 20,
     fontWeight: '500',
-    color: 'rgba(0,0,0,0.65)',
-  },
-  detailValue: {
-    fontSize: 15,
-    fontWeight: '600',
     color: '#111',
+    flex: 1,
+    paddingRight: 12,
   },
-  detailValueBold: {
-    fontWeight: '800',
-  },
-  cardDivider: {
+  rowDivider: {
     height: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.08)',
     marginHorizontal: 22,
   },
 
-  // ── Fixed Bottom Buttons ──
-  fixedBottom: {
-    paddingHorizontal: 18,
-    paddingBottom: Platform.OS === 'ios' ? 34 : 20,
-    paddingTop: 10,
-    gap: 12,
-    zIndex: 10,
+  // ── Bottom Support Card ──
+  supportCard: {
+    borderColor: 'rgba(255, 166, 0, 0.88)',
+    backgroundColor: 'rgba(255, 166, 0, 0.15)', // orange glass
+    borderWidth: 1,
+    paddingVertical: 20,
+    paddingHorizontal: 22,
+    marginTop: 8,
   },
-  tryAgainBtn: {
-    backgroundColor: '#6B6560',
+  supportHeaderRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 18,
+  },
+  supportIconWrapper: {
+    width: 44,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+  },
+  supportTextContainer: {
+    flex: 1,
+    paddingLeft: 8,
+  },
+  supportTitle: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#111',
+    marginBottom: 4,
+  },
+  supportSubtitle: {
+    fontSize: 15,
+    color: 'rgba(0,0,0,0.60)',
+    lineHeight: 18,
+  },
+
+  // ── Contact Support Button ──
+  contactBtn: {
+    backgroundColor: '#6B6560', // grey background
     borderRadius: 14,
     paddingVertical: 18,
     alignItems: 'center',
     justifyContent: 'center',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.14,
+    shadowOpacity: 0.12,
     shadowRadius: 8,
-    elevation: 5,
+    elevation: 4,
   },
-  tryAgainText: {
+  contactBtnText: {
     fontSize: 16,
     fontWeight: '700',
     color: '#fff',
     letterSpacing: 0.4,
-  },
-  changeMethodCard: {
-    paddingVertical: 18,
-    borderColor: 'rgba(255, 166, 0, 0.88)',
-    backgroundColor: 'rgba(255, 166, 0, 0.15)', // orange glass
-    borderWidth: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  changeMethodText: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: '#111',
-    letterSpacing: 0.3,
   },
 
   // ── Glass Base Styles ──
